@@ -1,0 +1,29 @@
+{
+  "name": "express-builder",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec \"run-s eslint start\"",
+    "eslint:watch": "esw --watch --cache --fix .",
+    "eslint": "eslint --cache --fix --format codeframe .",
+    "start": "node test/app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Diogo Pais",
+    "email": "dpais11@gmail.com",
+    "url": "http://diogopais.com"
+  },
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^4.18.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-watch": "^3.1.3",
+    "nodemon": "^1.15.0",
+    "npm-run-all": "^4.1.2"
+  }
+}

@@ -1,0 +1,32 @@
+module.exports = {
+  root: true,
+  env: {
+    node: true,
+    jest: true,
+  },
+  extends: [
+    "airbnb-base",
+  ],
+  rules: {
+    "arrow-parens": ["error", "as-needed"],
+    "brace-style": ["error", "stroustrup"],
+    "max-len": "off",
+    "no-await-in-loop": "off",
+    "no-empty-function": "warn",
+    "no-empty": "warn",
+    "no-multi-assign": "off",
+    "no-nested-ternary": "off",
+    "no-param-reassign": "off",
+    "no-plusplus": "off",
+    "no-return-assign": "off",
+    "no-sequences": "off",
+    "no-shadow": "off",
+    "no-underscore-dangle": "off",
+    "no-unused-vars": "warn",
+    "no-use-before-define": "off",
+    "object-curly-newline": ["error", { multiline: true, consistent: true }],
+    "prefer-destructuring": ["warn", { object: true, array: false }],
+    quotes: ["error", "double"],
+    radix: "off",
+  },
+};
