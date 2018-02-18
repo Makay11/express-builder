@@ -43,6 +43,14 @@ module.exports = (app, rootPath) => {
       return middleware.map(f => wrapAsync(f));
     }
 
+    if (middleware.length === 4) {
+      return (err, req, res, next) => {
+        const p = middleware(err, req, res, next);
+
+        if (p.catch) p.catch(next);
+      };
+    }
+
     return (req, res, next) => {
       const p = middleware(req, res, next);
 
