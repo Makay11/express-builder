@@ -36,7 +36,7 @@ module.exports = (app, rootPath, options = {}) => {
             });
           }
           else {
-            throw new Error(`Invalid module export in ${filePath}`);
+            throw new Error(`Invalid module export in "${relativePath}"`);
           }
         }
       }
