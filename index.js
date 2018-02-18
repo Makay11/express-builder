@@ -11,6 +11,9 @@ module.exports = (app, rootPath, options = {}) => {
   const shouldInclude = mm.matcher(options.include || "**/*.js");
   const shouldIgnore = mm.matcher(options.ignore || ["**/__tests__/**/*.js", "**/?(*.)(spec|test).js"]);
 
+  const prefix = options.prefix || "";
+  const logger = options.logger !== undefined ? options.logger : console.log; // eslint-disable-line no-console
+
   build(rootPath);
 
   function build(dirPath) {
@@ -25,14 +28,18 @@ module.exports = (app, rootPath, options = {}) => {
         if (shouldInclude(relativePath) && !shouldIgnore(relativePath)) {
           const module = require(filePath); // eslint-disable-line global-require, import/no-dynamic-require
 
-          const route = `/${relativePath.replace(/\..*?$/, "").replace(/\/_/g, "/:")}`.replace(/\/index$/, "/");
+          const route = prefix + `/${relativePath.replace(/\..*?$/, "").replace(/\/_/g, "/:")}`.replace(/\/index$/, "/");
+
+          if (logger) logger(`${relativePath} => ${route}`);
 
           if (Array.isArray(module) || typeof module === "function") {
             app.get(route, wrapAsync(module));
+            if (logger) logger(`get ${route}`);
           }
           else if (typeof module === "object") {
             Object.keys(module).forEach(method => {
               app[method](route, wrapAsync(module[method]));
+              if (logger) logger(`${method} ${route}`);
             });
           }
           else {
