@@ -62,14 +62,14 @@ module.exports = (app, rootPath, options = {}) => {
       return (err, req, res, next) => {
         const p = middleware(err, req, res, next);
 
-        if (p.catch) p.catch(next);
+        if (p && p.catch) p.catch(next);
       };
     }
 
     return (req, res, next) => {
       const p = middleware(req, res, next);
 
-      if (p.catch) p.catch(next);
+      if (p && p.catch) p.catch(next);
     };
   }
 };
