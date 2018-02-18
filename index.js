@@ -1,13 +1,17 @@
 const fs = require("fs");
 const path = require("path");
 
-module.exports = (app, rootPath) => {
-  if (path.isAbsolute(rootPath)) {
-    build(rootPath);
-  }
-  else {
+const mm = require("micromatch");
+
+module.exports = (app, rootPath, options = {}) => {
+  if (!path.isAbsolute(rootPath)) {
     throw new Error("Root path must be absolute.");
   }
+
+  const shouldInclude = mm.matcher(options.include || "**/*.js");
+  const shouldIgnore = mm.matcher(options.ignore || ["**/__tests__/**/*.js", "**/?(*.)(spec|test).js"]);
+
+  build(rootPath);
 
   function build(dirPath) {
     fs.readdirSync(dirPath).forEach(file => {
@@ -16,20 +20,24 @@ module.exports = (app, rootPath) => {
       const stats = fs.statSync(filePath);
 
       if (stats.isFile()) {
-        const module = require(filePath); // eslint-disable-line global-require, import/no-dynamic-require
+        const relativePath = path.relative(rootPath, filePath).replace(/\\/g, "/");
 
-        const route = `/${path.relative(rootPath, filePath).replace(/\..*?$/, "").replace(/\\/g, "/").replace(/\/_/g, "/:")}`.replace(/\/index$/, "/");
+        if (shouldInclude(relativePath) && !shouldIgnore(relativePath)) {
+          const module = require(filePath); // eslint-disable-line global-require, import/no-dynamic-require
 
-        if (Array.isArray(module) || typeof module === "function") {
-          app.get(route, wrapAsync(module));
-        }
-        else if (typeof module === "object") {
-          Object.keys(module).forEach(method => {
-            app[method](route, wrapAsync(module[method]));
-          });
-        }
-        else {
-          throw new Error(`Invalid module export in ${filePath}`);
+          const route = `/${relativePath.replace(/\..*?$/, "").replace(/\/_/g, "/:")}`.replace(/\/index$/, "/");
+
+          if (Array.isArray(module) || typeof module === "function") {
+            app.get(route, wrapAsync(module));
+          }
+          else if (typeof module === "object") {
+            Object.keys(module).forEach(method => {
+              app[method](route, wrapAsync(module[method]));
+            });
+          }
+          else {
+            throw new Error(`Invalid module export in ${filePath}`);
+          }
         }
       }
       else if (stats.isDirectory()) {
