@@ -1,7 +1,7 @@
 {
   "name": "express-builder",
   "version": "0.1.0",
-  "description": "Build express routes automatically from the file system, with async function middleware support built-in.",
+  "description": "Build express routes automatically and recursively from the file system, with async function middleware support built-in.",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --exec \"run-s eslint start\"",
