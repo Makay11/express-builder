@@ -1,7 +1,7 @@
 {
   "name": "express-builder",
   "version": "0.1.0",
-  "description": "",
+  "description": "Build express routes automatically and recursively from the file system, with async function middleware support built-in.",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --exec \"run-s eslint start\"",
@@ -14,7 +14,13 @@
   "jest": {
     "collectCoverage": true
   },
-  "keywords": [],
+  "keywords": [
+    "express",
+    "router",
+    "routes",
+    "async",
+    "middleware"
+  ],
   "author": {
     "name": "Diogo Pais",
     "email": "dpais11@gmail.com",
