@@ -29,7 +29,7 @@
   "repository": "github:Makay11/express-builder",
   "license": "ISC",
   "dependencies": {
-    "micromatch": "^3.1.5"
+    "micromatch": "^4.0.0"
   },
   "devDependencies": {
     "eslint": "^4.18.0",
