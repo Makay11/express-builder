@@ -40,6 +40,6 @@
     "jest": "^22.3.0",
     "nodemon": "^1.15.0",
     "npm-run-all": "^4.1.2",
-    "supertest": "^3.0.0"
+    "supertest": "^4.0.0"
   }
 }
